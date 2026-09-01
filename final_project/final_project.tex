@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[colorlinks = true, linkcolor = black, citecolor = black, final]{hyperref}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{enumitem}
+\usepackage[margin=0.75in]{geometry}
+
+\newcommand{\ds}{\displaystyle}
+
+\begin{document}
+\noindent
+{\scshape UMBC PAL} \hfill {\scshape Summer INSuRE Session 2026} \\
+{\scshape Author - PAL Education Team } \hfill {\scshape Final Project}
+ 
+\smallskip
+\hrule
+\bigskip
+
+\begin{center}
+{\large \textbf{FINAL PROJECT DUE July 2, 2026 by Noon}}
+\end{center}
+
+\section{Directions}
+
+Given the protocol specification and scenario below, model the protocol in CPSA and state if the protocol fits the use case in the scenario and why. 
+Then, state if either you believe the protocol satisfies the lab's security goals, or the protocol includes issues/attacks which compromise the goals. 
+
+\section{Deliverables}
+\begin{enumerate}
+    \item A functioning CPSA model of the protocol described in the spec below. Your model should be able to be compiled and ran on any system. The shapes it produces should be the same shapes used in the following deliverables.
+    \item Prepare a brief 5-10 minute presentation that includes a brief description of the protocol, screenshots of the shapes your CPSA model produced, and a high-level description of your analysis. 
+    Be prepared to present this on the last day of the workshop!
+    \item You should also prepare a writeup, approximately one page in length, that describes the protocol, whether the protocol is a good fit for the scenario, and its adherence to security goals in the scenario.
+You should include some pictures of your shapes in the writeup (this will help you fill the page).
+You should also include a works cited for any materials that you reference. This may include the workshop slides, the CPSA manual, and any other CPSA code that you inspect.
+You should make an attempt to decide which assumptions make sense in this scenario and clearly state your reason for why in your write up.
+\end{enumerate}
+
+
+
+ 
+
+\vfill
+\pagebreak
+
+\section{Protocol Specification:}
+
+\begin{lstlisting}
+;; S, C, AS    : principal
+;; N1, N2, N3, : nonce
+;; TS          : timestamp
+;; L           : lifetime
+;; pk, sk      : principal --> keypair
+
+;; C -> AS     : C, S, N1
+;; AS -> C     : AS, {AS, C, N1, pk(S)}sk(AS)
+;; C -> S      : C, S, {C, TS, L, {N2}pk(S)}sk(C)
+;; S -> AS     : S, C, N3
+;; AS -> S     : AS, {AS, S, N3, pk(C)}sk(AS)
+;; S -> C      : S, C, {S, cat(N2,``1'')}pk(C)  
+\end{lstlisting}
+
+\noindent
+\textbf{Participants}
+
+\begin{enumerate}[nosep]
+\item Client $C$
+\item Server $S$
+\item Authentication Server $AS$
+\item User $U$
+\end{enumerate}
+
+The User $U$ controls the Client $C$ and initiates all actions performed by $C$.
+
+\vspace{0.5em}
+\noindent
+\textbf{Notation}
+
+\begin{itemize}[nosep]
+\item $N_1, N_2, N_3$: fresh nonces (unique per session)
+\item $TS$: timestamp
+\item $L$: lifetime / expiration interval
+\item $pk(X)$: public key of principal $X$
+\item $sk(X)$: private (signing) key of principal $X$
+\item $\{M\}_{sk(X)}$: message $M$ signed by $X$
+\item $\{M\}_{pk(X)}$: message $M$ encrypted for $X$
+\item $\text{cat}(x,y)$: concatenation of $x$ and $y$
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+\textbf{Protocol Description}
+
+\noindent
+\textbf{Phase 1: Client obtains Server's public key}
+\begin{enumerate}[nosep]
+\item The User instructs the Client $C$ to initiate communication with $AS$.
+
+
+\item $C \rightarrow AS: \; C, S, N_1$ \\
+The Client requests the public key of $S$, including a fresh nonce $N_1$.
+
+\item $AS \rightarrow C: \; AS, \{AS, C, N_1, pk(S)\}_{sk(AS)}$ \\
+The Authentication Server responds with a signed message containing the identities $AS$, $C$, the nonce $N_1$, and the public key of $S$.
+
+\item The User may optionally inspect the response.
+
+\end{enumerate}
+
+\vspace{0.5em}
+\noindent
+\textbf{Phase 2: Client initiates session with Server}
+\begin{enumerate}[nosep,resume]
+    \item $C \rightarrow S: \; C, S, \{C, TS, L, \{N_2\}_{pk(S)}\}_{sk(C)}$ \\
+The Client sends its identity, the Server's identity, and a signed payload containing a timestamp $TS$, a lifetime $L$, and a fresh nonce $N_2$ encrypted under $pk(S)$.
+\end{enumerate}
+
+\pagebreak
+\noindent
+\textbf{Phase 3: Server obtains Client's public key}
+\begin{enumerate}[nosep,resume]
+    \item $S \rightarrow AS: \; S, C, N_3$ \\
+The Server requests the public key of $C$, including a fresh nonce $N_3$.
+    \item $AS \rightarrow S: \; AS, \{AS, S, N_3, pk(C)\}_{sk(AS)}$ \\
+The Authentication Server responds with a signed message containing the identities $AS$, $S$, the nonce $N_3$, and the public key of $C$.
+\end{enumerate}
+
+\vspace{0.5em}
+\noindent
+\textbf{Phase 4: Server responds to Client}
+\begin{enumerate}[nosep,resume]
+    \item $S \rightarrow C: \; S, C, \{S, \text{cat}(N_2,\text{``1''})\}_{pk(C)}$ \\
+The Server proves possession of $N_2$ by decrypting it, appending the string ``1'', and encrypting the result under $pk(C)$.
+\end{enumerate}
+
+\vspace{0.5em}
+\noindent
+\textbf{Operational Requirements}
+
+\begin{itemize}[nosep]
+    \item All nonces $N_1, N_2, N_3$ must be freshly generated and unique.
+    \item Private keys $sk(X)$ must never be disclosed.
+    \item Each principal must send all messages it is responsible for and correctly process all received messages.
+    \item The Server $S$ operates independently and must not delegate its authority to any other principal.
+\end{itemize}
+
+\pagebreak
+
+\section{Scenario:}
+
+You are a Researcher in the UMBC Protocol Analysis Lab. 
+The lab is developing a distributed storage network in which students must mutually authenticate with data storage servers. 
+
+Since many students are using the servers, pre-sharing symmetric keys across every pairing is infeasible. 
+To manage key distribution, our lab has designed a custom protocol using an authentication server that acts as an authority on the system. 
+The goal of this protocol is to verify the identities of both parties using public-key cryptography, establish a fresh session key, and prevent replay attacks using timestamps and lifetimes.
+
+Before this protocol is cleared for use in the lab, the PAL Education team has assigned the lab to conduct a formal-methods analysis on it.
+You must determine if this design fulfills the security goals for the lab and/or if there are any attacks or flaws on the system.
+
+\section{Submission}
+A form will be available on the GitHub page in the \href{https://github.com/UMBC-Protocol-Analysis-Lab/CPSA-Summer-Session/tree/main/final_project}{final project} directory.
+
+When submitting make sure to include your CPSA model file, a write up on your work (including a works cited), and your slides.
+You must include your produced shapes in your write up which could be done by importing the images or the text output.
+
+Your main references will be the manual, previous slides in the workshop, any related papers on CPSA or protocol analysis, and your partner.
+Please attempt to do this project without other human or AI help, besides your partner and instructors.
+
+\end{document}

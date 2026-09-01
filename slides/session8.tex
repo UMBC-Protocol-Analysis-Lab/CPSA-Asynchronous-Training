@@ -1,0 +1,106 @@
+\makeatletter\let\ifGm@compatii\relax\makeatother
+\documentclass[red]{beamer}
+
+%\usepackage{beamerthemesplit}
+\usepackage{listings}
+\usepackage{comment}
+\usepackage{url}
+\usepackage{bm}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.symbols}
+
+\usepackage{hyperref} % has to be last
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdfpagemode=FullScreen,
+    }
+
+\tikzset{
+    saiarrow/.style={{-Latex}, thick}
+}
+
+\newcommand{\isred}[1]{{\color{red} {\bf #1}}} 
+\newcommand{\isblue}[1]{{\color{blue}{\bf #1}}} 
+\newcommand{\isgreen}[1]{{\color{green} {#1}}} 
+\newcommand{\isdarkgreen}[1]{{\color{darkgreen} {#1}}} 
+\newcommand{\isorange}[1]{{\color{orange} {#1}}} 
+
+\DeclareMathOperator{\poly}{poly}
+
+\begin{document}
+
+
+\setbeamercolor{alerted_text}{fg=cyan}
+\xdefinecolor{purplish}{cmyk}{0.75,0.75, 0, 0}
+\xdefinecolor{purple}{cmyk}{0.75,0.75, 0, 0}
+\colorlet{newred}{red!60!black}
+
+\title{Session 8: Final Presentations}
+\author{Slides prepared by UMBC Protocol Analysis Lab}
+\date{Last edited \today}
+\begin{frame}
+\maketitle
+\end{frame}
+
+\begin{frame}
+\begin{center}
+{\huge Presentation order}
+\end{center}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item Team 1: Tristan and Steven
+\item Team 2: Jackson and Connor
+\item Team 3: Ethan and Wyatt
+\item Team 4: Devin and Zach
+\item Team 5: Adian and Timoteo
+\item Team 6: Arianna and Savannah
+\end{itemize}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item Team 7: Sebastian and Huy
+\item Team 8: Ahman and Hunter
+\item Team 9: Erick and Eshan
+\item Team 10: Luke and Mario
+\item Team 11: Krishna and Jahir
+\item Team 12: Elmira and Rocio
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{comment}
+\begin{frame} \frametitle{Join UMBC PAL!}
+    \begin{itemize}
+        \item If you liked the things you learned about during the workshop, join us in the lab!
+        \item UMBC PAL does protocol analysis, digital provenance, and AI security
+        \item We need math (proofs), computer science (coding), and all kinds of other skills
+        \item Meetings on Fridays at 1PM on Discord or in ITE 228
+        \item If you have any questions about joining a project, let one of us know.
+    \end{itemize}
+\end{frame}
+\end{comment}
+
+
+\begin{frame}\frametitle{Conclusion}
+\begin{itemize}
+\item Thank you all for joining us for these sessions!
+\item Hopefully you learned something, and are interested in continuing cybersecurity research.
+\item We are aiming to produce a paper about teaching cybersecurity.
+When the paper is published, everyone will be acknowledged for their participation (by session number).
+%\item Session 1: We did not have IRB approval, so no data collected for study.
+%Your certificate is still valid, and you will still be acknowledged, we just won't use any data from this round.
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Survey}
+Fill in details about the survey here!
+\end{frame}
+\end{document}
