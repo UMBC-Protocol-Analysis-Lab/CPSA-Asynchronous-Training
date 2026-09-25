@@ -19,6 +19,12 @@ You are also free to ask for help in the Discord.
 
 Homework assignments will be posted in the [Homeworks](./homeworks) directory.
 
+# Survey Quizzes
+
+There's a survey quiz which corresponds to each lecture.
+These are a great way to quickly quiz yourself on the content presented during lecture.
+They can be found in the SURVEY QUIZ FOLDER WHICH NEEDS TO BE ADDED HERE.
+
 # Final Project
 
 There is a final project that will put all of your cybersecurity and CPSA skills to the test, and is a good metric of the kind of work we do in the lab. 
