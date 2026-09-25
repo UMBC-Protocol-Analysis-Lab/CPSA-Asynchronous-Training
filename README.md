@@ -23,7 +23,7 @@ Homework assignments will be posted in the [Homeworks](./homeworks) directory.
 
 There's a survey quiz which corresponds to each lecture.
 These are a great way to quickly quiz yourself on the content presented during lecture.
-They can be found in the SURVEY QUIZ FOLDER WHICH NEEDS TO BE ADDED HERE.
+They can be found in the [survey quiz folder](https://drive.google.com/drive/folders/1DRIM6qgH1UgUiQxXY4H6H2n20RccmtfN?usp=drive_link).
 
 # Final Project
 
